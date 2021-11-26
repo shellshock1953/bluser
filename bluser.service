@@ -1,0 +1,14 @@
+[Unit]
+Description=blUser Check user BLE
+After=suspend.target
+
+[Service]
+Type=simple
+Environment=DISPLAY=":0"
+ExecStartPre=-/bin/sh -c 'sleep 1'
+ExecStart=/bin/bash -x /home/shellshock/install/bluser/bluser.sh
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target

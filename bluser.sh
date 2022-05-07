@@ -72,9 +72,9 @@ bleutoothctl_reader()
     do
       if read line <$pipe; then
           if [[ "$line" == 'exit' ]]; then
-              break
+              return 0
           fi          
-          echo $line
+          echo "$line"
       fi
     done
   } | bluetoothctl > "$output_file"

@@ -14,38 +14,10 @@ SYSTEMD_STATUS=
 
 # Colors
 NC='%{F-}%{B-}'
-BLACK="%{F#263238}"
-DARK_GRAY="%{F#37474f}"
 RED="%{F#ff9800}"
-LIGHT_RED="%{F#ffa74d}"
 GREEN="%{F#8bc34a}"
-LIGHT_GREEN="%{F#9ccc65}"
-ORANGE="%{F#ffc107}"
 YELLOW="%{F#ffa000}"
-BLUE="%{F#03a9f4}"
-LIGHT_BLUE="%{F#81d4fa}"
-PURPLE="%{F#e91e63}"
-LIGHT_PURPLE="%{F#ad1457}"
 CYAN="%{F#009688}"
-LIGHT_CYAN="%{F#26a69a}"
-LIGHT_GRAY="%{F#cfd8dc}"
-WHITE="%{F#eceff1}"
-BBLACK="%{B#263238}"
-BDARK_GRAY="%{B#37474f}"
-BRED="%{B#ff9800}"
-BLIGHT_RED="%{B#ffa74d}"
-BGREEN="%{B#8bc34a}"
-BLIGHT_GREEN="%{B#9ccc65}"
-BORANGE="%{B#ffc107}"
-BYELLOW="%{B#ffa000}"
-BBLUE="%{B#03a9f4}"
-BLIGHT_BLUE="%{B#81d4fa}"
-BPURPLE="%{B#e91e63}"
-BLIGHT_PURPLE="%{B#ad1457}"
-BCYAN="%{B#009688}"
-BLIGHT_CYAN="%{B#26a69a}"
-BLIGHT_GRAY="%{B#cfd8dc}"
-BWHITE="%{B#eceff1}"
 
 lecho() {
   echo "Bluser: ${2}$"
@@ -70,7 +42,7 @@ bleutoothctl_reader()
   {
     while true
     do
-      if read line <$pipe; then
+      if read -r line <$pipe; then
           if [[ "$line" == 'exit' ]]; then
               return 0
           fi          
@@ -83,7 +55,7 @@ bleutoothctl_reader()
 bleutoothctl_writer() 
 {
   cmd=$1
-  printf "$cmd\n\n" > $pipe
+  printf "%cmd\n\n" "$cmd" > $pipe
 }
 
 bleutoothctl_scan() {
@@ -154,8 +126,8 @@ toggle() {
 }
 
 check_if_locked() {
-  LOCKED="$(ps aux | grep i3lock | grep -v grep)"
-  if [ ! -z "${LOCKED}" ]; then
+  LOCKED="$(pgrep i3lock)"
+  if [ -n "${LOCKED}" ]; then
     lecho ${YELLOW} "already locked"
     # exit 0
   fi
@@ -167,7 +139,7 @@ main() {
     # exit 1
   fi
   case "${ARG}" in
-    toggle) toggle && break ;;
+    toggle) toggle && return 0 ;;
     *) 
       # check_if_locked
       get_status

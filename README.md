@@ -11,3 +11,4 @@ type = custom/script
 exec = cat /tmp/bluser.log
 click-left = ~/install/bluser/bluser.sh toggle
 ```
+

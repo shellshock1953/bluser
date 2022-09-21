@@ -1,0 +1,6 @@
+global:
+  image: aa
+  tag: latest
+
+app:
+  foo: bar

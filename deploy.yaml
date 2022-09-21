@@ -1,5 +1,5 @@
 global:
   image: aa
-  tag: argo-events-66
+  tag: argo-events-71
 app:
   foo: bar
